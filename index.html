@@ -1,10 +1,407 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autolens – KI-Analyse für Autoteile</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- 
+    Microsoft Authentication Library (MSAL.js) – für später aktivieren:
+    <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+  -->
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
 <body>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar__inner container">
+
+      <div class="navbar__logo">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">Auto<strong>lens</strong></span>
+      </div>
+
+      <nav class="navbar__links">
+        <a href="#wie-es-funktioniert">Wie es funktioniert</a>
+        <a href="#vorteile">Vorteile</a>
+        <a href="#upload">Jetzt testen</a>
+      </nav>
+
+      <div class="navbar__auth">
+        <!-- 
+          Microsoft Login Integration (später):
+          - MSAL.js initialisieren mit deiner Azure App-ID
+          - loginPopup() oder loginRedirect() aufrufen beim Klick
+          - Beispiel: msalInstance.loginPopup({ scopes: ["User.Read"] })
+        -->
+        <button class="btn btn--outline" id="loginBtn" onclick="handleLogin()">
+          Anmelden
+        </button>
+        <button class="btn btn--primary" id="signupBtn" onclick="handleSignup()">
+          Registrieren
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="navbar__hamburger" onclick="toggleMenu()" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="navbar__mobile" id="mobileMenu">
+      <a href="#wie-es-funktioniert">Wie es funktioniert</a>
+      <a href="#vorteile">Vorteile</a>
+      <a href="#upload">Jetzt testen</a>
+      <button class="btn btn--outline" onclick="handleLogin()">Anmelden</button>
+      <button class="btn btn--primary" onclick="handleSignup()">Registrieren</button>
+    </div>
+  </header>
+
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <span class="badge">KI-gestützte Teileanalyse</span>
+        <h1>Erkenne jedes Autoteil –<br />sofort und präzise.</h1>
+        <p class="hero__sub">
+          Einfach Foto hochladen. Autolens identifiziert das Autoteil,
+          zeigt dir alle Infos und vergleicht aktuelle Marktpreise aus dem Netz.
+        </p>
+        <div class="hero__cta">
+          <a href="#upload" class="btn btn--primary btn--large">Foto hochladen</a>
+          <a href="#wie-es-funktioniert" class="btn btn--ghost btn--large">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="hero__card">
+          <div class="hero__card-icon">🔧</div>
+          <div class="hero__card-info">
+            <span class="hero__card-label">Erkanntes Teil</span>
+            <span class="hero__card-value">Bremsscheibe – Vorderachse</span>
+          </div>
+          <div class="hero__card-badge">95% Übereinstimmung</div>
+        </div>
+        <div class="hero__card hero__card--sm">
+          <div class="hero__card-icon">💶</div>
+          <div class="hero__card-info">
+            <span class="hero__card-label">Marktwert (aktuell)</span>
+            <span class="hero__card-value">45 € – 89 €</span>
+          </div>
+        </div>
+        <div class="hero__card hero__card--sm">
+          <div class="hero__card-icon">🚗</div>
+          <div class="hero__card-info">
+            <span class="hero__card-label">Passt für</span>
+            <span class="hero__card-value">VW, Audi, Skoda (2015–2022)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== WIE ES FUNKTIONIERT ===== -->
+  <section class="section steps" id="wie-es-funktioniert">
+    <div class="container">
+      <h2 class="section__title">Wie funktioniert Autolens?</h2>
+      <p class="section__sub">In drei einfachen Schritten zum Ergebnis – kein Expertenwissen nötig.</p>
+
+      <div class="steps__grid">
+        <div class="step-card">
+          <div class="step-card__num">1</div>
+          <div class="step-card__icon">📷</div>
+          <h3>Foto hochladen</h3>
+          <p>Mach ein Foto von deinem Autoteil – egal ob Bremsscheibe, Sensor, Schlauch oder Karosserieteile. Einfach hochladen.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-card__num">2</div>
+          <div class="step-card__icon">🤖</div>
+          <h3>KI analysiert</h3>
+          <p>Unsere KI erkennt das Teil, findet die Bezeichnung, Hersteller-Nummer und Fahrzeugkompatibilität.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-card__num">3</div>
+          <div class="step-card__icon">📊</div>
+          <h3>Infos & Preise erhalten</h3>
+          <p>Du bekommst alle wichtigen Infos und einen aktuellen Preisvergleich aus verschiedenen Quellen im Internet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== VORTEILE ===== -->
+  <section class="section benefits" id="vorteile">
+    <div class="container">
+      <h2 class="section__title">Warum Autolens?</h2>
+
+      <div class="benefits__grid">
+        <div class="benefit-item">
+          <span class="benefit-item__icon">⚡</span>
+          <div>
+            <h4>Sofortige Ergebnisse</h4>
+            <p>Keine langen Wartezeiten. Die Analyse dauert nur wenige Sekunden.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <span class="benefit-item__icon">🔍</span>
+          <div>
+            <h4>Präzise Erkennung</h4>
+            <p>Modernste Bilderkennungs-KI mit hoher Treffergenauigkeit – auch bei alten oder beschädigten Teilen.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <span class="benefit-item__icon">💰</span>
+          <div>
+            <h4>Aktueller Marktpreis</h4>
+            <p>Wir vergleichen Preise aus verschiedenen Online-Quellen und zeigen dir den realistischen Marktwert.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <span class="benefit-item__icon">🚘</span>
+          <div>
+            <h4>Kompatibilitäts-Check</h4>
+            <p>Erfahre direkt, für welche Fahrzeugmodelle und Baujahre das Teil geeignet ist.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <span class="benefit-item__icon">🌐</span>
+          <div>
+            <h4>Einfach & überall nutzbar</h4>
+            <p>Kein Download, keine Installation. Autolens läuft direkt im Browser – auf Handy und PC.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <span class="benefit-item__icon">🔒</span>
+          <div>
+            <h4>Sicher & DSGVO-konform</h4>
+            <p>Deine Daten werden nicht weitergegeben. Login über Microsoft – sicher und vertrauenswürdig.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== UPLOAD SECTION ===== -->
+  <section class="section upload-section" id="upload">
+    <div class="container">
+      <h2 class="section__title">Jetzt ausprobieren</h2>
+      <p class="section__sub">Lade ein Foto deines Autoteils hoch und lass die KI arbeiten.</p>
+
+      <div class="upload-box" id="uploadBox">
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event)" />
+
+        <div class="upload-box__inner" id="uploadInner" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-box__icon">📁</div>
+          <p class="upload-box__text">Foto hier hineinziehen oder <span class="link">Datei auswählen</span></p>
+          <p class="upload-box__hint">JPG, PNG oder WEBP – max. 10 MB</p>
+        </div>
+
+        <!-- Preview nach Upload -->
+        <div class="upload-box__preview" id="uploadPreview" style="display:none;">
+          <img id="previewImg" src="" alt="Vorschau" />
+          <div class="upload-box__preview-info">
+            <span id="fileName" class="upload-box__filename"></span>
+            <button class="btn btn--outline btn--sm" onclick="resetUpload()">Anderes Foto wählen</button>
+          </div>
+        </div>
+
+        <!-- Analyse Button -->
+        <div class="upload-box__actions" id="uploadActions" style="display:none;">
+          <button class="btn btn--primary btn--large" onclick="startAnalysis()">
+            🔍 &nbsp;Autoteil analysieren
+          </button>
+          <p class="upload-box__note">
+            <!-- Hinweis: Login wird später per MSAL.js geprüft, bevor die Analyse startet -->
+            Für die vollständige Analyse ist ein kostenloser Account erforderlich.
+          </p>
+        </div>
+
+        <!-- Drag & Drop Events -->
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===== WAS KOMMT ALS NÄCHSTES ===== -->
+  <section class="section roadmap">
+    <div class="container">
+      <h2 class="section__title">Was kommt als Nächstes?</h2>
+      <p class="section__sub">Autolens wird ständig weiterentwickelt. Das ist geplant:</p>
+
+      <div class="roadmap__list">
+        <div class="roadmap__item roadmap__item--done">
+          <span class="roadmap__dot"></span>
+          <div>
+            <h4>KI-Teile-Erkennung</h4>
+            <p>Foto hochladen und Autoteil automatisch identifizieren lassen.</p>
+          </div>
+        </div>
+
+        <div class="roadmap__item roadmap__item--done">
+          <span class="roadmap__dot"></span>
+          <div>
+            <h4>Preisvergleich</h4>
+            <p>Aktuelle Marktpreise aus dem Internet direkt anzeigen.</p>
+          </div>
+        </div>
+
+        <div class="roadmap__item">
+          <span class="roadmap__dot"></span>
+          <div>
+            <h4>Teile direkt verkaufen</h4>
+            <p>Bald: Autoteile direkt über Autolens inserieren und verkaufen.</p>
+          </div>
+        </div>
+
+        <div class="roadmap__item">
+          <span class="roadmap__dot"></span>
+          <div>
+            <h4>Händler-Dashboard</h4>
+            <p>Für Werkstätten und Händler: Mehrere Teile verwalten und analysieren.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__logo">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">Auto<strong>lens</strong></span>
+      </div>
+
+      <div class="footer__links">
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">Kontakt</a>
+        <a href="#">AGB</a>
+      </div>
+
+      <p class="footer__copy">© 2025 Autolens. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ─── Mobile Menu ──────────────────────────────────────────────
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+
+    // ─── Drag & Drop ──────────────────────────────────────────────
+    const uploadBox = document.getElementById('uploadBox');
+
+    uploadBox.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadBox.classList.add('drag-over');
+    });
+    uploadBox.addEventListener('dragleave', () => {
+      uploadBox.classList.remove('drag-over');
+    });
+    uploadBox.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadBox.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        showPreview(file);
+      }
+    });
+
+    // ─── File Select ──────────────────────────────────────────────
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) showPreview(file);
+    }
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('uploadInner').style.display = 'none';
+        document.getElementById('uploadPreview').style.display = 'flex';
+        document.getElementById('uploadActions').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetUpload() {
+      document.getElementById('fileInput').value = '';
+      document.getElementById('uploadInner').style.display = 'flex';
+      document.getElementById('uploadPreview').style.display = 'none';
+      document.getElementById('uploadActions').style.display = 'none';
+    }
+
+    // ─── Analyse starten ──────────────────────────────────────────
+    function startAnalysis() {
+      // TODO: Hier später prüfen ob User eingeloggt ist (MSAL.js)
+      // Beispiel:
+      // const account = msalInstance.getActiveAccount();
+      // if (!account) { msalInstance.loginPopup(...); return; }
+      // Dann: Bild an Backend / Azure Function schicken und Ergebnis anzeigen
+
+      alert('🚀 Analyse-Funktion kommt bald! Bitte registriere dich, um benachrichtigt zu werden.');
+    }
+
+    // ─── Login / Signup ───────────────────────────────────────────
+    function handleLogin() {
+      // TODO: MSAL.js loginPopup() oder loginRedirect()
+      // Konfiguration mit deiner Azure App-ID (Client ID):
+      //
+      // const msalConfig = {
+      //   auth: {
+      //     clientId: "DEINE-AZURE-APP-CLIENT-ID",
+      //     authority: "https://login.microsoftonline.com/common",
+      //     redirectUri: window.location.origin
+      //   }
+      // };
+      // const msalInstance = new msal.PublicClientApplication(msalConfig);
+      // msalInstance.loginPopup({ scopes: ["User.Read"] });
+
+      alert('Login mit Microsoft kommt bald!');
+    }
+
+    function handleSignup() {
+      alert('Registrierung kommt bald! Danke für dein Interesse an Autolens.');
+    }
+
+    // ─── Smooth Scroll für ältere Browser ─────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
