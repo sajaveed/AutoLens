@@ -359,36 +359,50 @@
     }
 
     // ─── Analyse starten ──────────────────────────────────────────
-    function startAnalysis() {
-      // TODO: Hier später prüfen ob User eingeloggt ist (MSAL.js)
-      // Beispiel:
-      // const account = msalInstance.getActiveAccount();
-      // if (!account) { msalInstance.loginPopup(...); return; }
-      // Dann: Bild an Backend / Azure Function schicken und Ergebnis anzeigen
-
-      alert('🚀 Analyse-Funktion kommt bald! Bitte registriere dich, um benachrichtigt zu werden.');
+    async function startAnalysis() {
+      const user = await getUser();
+      if (!user) {
+        // Nicht eingeloggt → zum Microsoft-Login
+        window.location.href = '/login';
+        return;
+      }
+      // Eingeloggt → hier später Bild an Backend schicken
+      alert('🚀 Analyse-Funktion kommt bald, ' + (user.userDetails || 'User') + '!');
     }
+
+    // ─── Auth: User laden ─────────────────────────────────────────
+    async function getUser() {
+      try {
+        const res = await fetch('/.auth/me');
+        const data = await res.json();
+        return data.clientPrincipal || null;
+      } catch {
+        return null;
+      }
+    }
+
+    async function updateNavAuth() {
+      const user = await getUser();
+      const loginBtn  = document.getElementById('loginBtn');
+      const signupBtn = document.getElementById('signupBtn');
+
+      if (user) {
+        const name = user.userDetails || 'Konto';
+        loginBtn.textContent  = '👤 ' + name;
+        loginBtn.onclick      = () => window.location.href = '/logout';
+        signupBtn.style.display = 'none';
+      }
+    }
+
+    updateNavAuth();
 
     // ─── Login / Signup ───────────────────────────────────────────
     function handleLogin() {
-      // TODO: MSAL.js loginPopup() oder loginRedirect()
-      // Konfiguration mit deiner Azure App-ID (Client ID):
-      //
-      // const msalConfig = {
-      //   auth: {
-      //     clientId: "DEINE-AZURE-APP-CLIENT-ID",
-      //     authority: "https://login.microsoftonline.com/common",
-      //     redirectUri: window.location.origin
-      //   }
-      // };
-      // const msalInstance = new msal.PublicClientApplication(msalConfig);
-      // msalInstance.loginPopup({ scopes: ["User.Read"] });
-
-      alert('Login mit Microsoft kommt bald!');
+      window.location.href = '/login';
     }
 
     function handleSignup() {
-      alert('Registrierung kommt bald! Danke für dein Interesse an Autolens.');
+      window.location.href = '/login';
     }
 
     // ─── Smooth Scroll für ältere Browser ─────────────────────────
